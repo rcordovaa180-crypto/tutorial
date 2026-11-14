@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tutorial de Desarrollo Móvil</title>
+<style>
+:root{--bg:#f4f4f4;--panel:#fff;--ink:#222;--muted:#5f5f5f;--line:#dcdcdc;--acc:#333;--acc-soft:#ececec;--code:#1e1e1e;--code-ink:#ececec;--side:268px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+.top{position:fixed;inset:0 0 auto 0;height:60px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 18px;z-index:30}
+.top h1{font-size:1.05rem;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.progress{position:fixed;top:60px;left:0;right:0;height:3px;z-index:31}
+#bar{height:100%;width:0;background:var(--acc)}
+#nav{position:fixed;top:63px;left:0;bottom:0;width:var(--side);background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;overflow-y:auto;z-index:20;display:flex;flex-direction:column;gap:2px}
+#search{width:100%;padding:9px 12px;margin-bottom:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-size:.92rem}
+#search:focus,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#nav a{display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:.94rem;border-left:3px solid transparent}
+#nav a:hover{background:var(--acc-soft);color:var(--ink)}
+#nav a.on{background:var(--acc-soft);color:var(--acc);font-weight:600;border-left-color:var(--acc)}
+main{margin-left:var(--side);padding:92px 40px 60px;max-width:calc(var(--side) + 900px)}
+.tema{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px 32px;margin-bottom:28px}
+.tema>h2{margin:0 0 18px;font-size:1.6rem;line-height:1.25;padding-bottom:12px;border-bottom:2px solid var(--acc)}
+article{padding:14px 0;border-top:1px solid var(--line)}
+article:first-of-type{border-top:0;padding-top:0}
+h3{margin:0 0 8px;font-size:1.05rem;color:var(--acc)}
+p{margin:0 0 10px;max-width:72ch}
+ul,ol{margin:0;padding-left:22px;max-width:72ch}
+li{margin-bottom:6px}
+code{font-family:Consolas,Menlo,monospace;font-size:.88em;background:var(--acc-soft);padding:2px 6px;border-radius:5px}
+pre{background:var(--code);color:var(--code-ink);padding:16px 18px;border-radius:10px;overflow-x:auto;margin:6px 0 0;line-height:1.55}
+pre code{background:none;padding:0;color:inherit;font-size:.86rem}
+.panel{margin-bottom:10px;background:var(--bg);border-left:3px solid var(--acc);border-radius:0 8px 8px 0;padding:14px 18px}
+.panel p:last-child{margin:0}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.94rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+th{background:var(--acc-soft);color:var(--acc)}
+#referencias li{word-break:break-word}
+#empty{display:none;color:var(--muted);padding:8px 12px;font-size:.9rem}
+.hide{display:none!important}
+@media(max-width:860px){
+#nav{position:static;width:auto;margin:68px 14px 0;border:1px solid var(--line);border-radius:14px}
+main{margin-left:0;padding:16px 14px 50px}
+.tema{padding:20px 18px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Tutorial: Desarrollo Móvil</h1>
+</header>
+<div class="progress"><div id="bar"></div></div>
+
+<nav id="nav" aria-label="Temas">
+  <input id="search" type="search" placeholder="Buscar tema..." aria-label="Buscar">
+  <a href="#versiones">Control de versiones</a>
+  <a href="#persistencia">Persistencia y acceso a datos</a>
+  <a href="#sensores">Gestión de sensores</a>
+  <a href="#multimedia">Recursos multimedia</a>
+  <a href="#servicios">Servicios y notificaciones</a>
+  <a href="#librerias">Librerías y toolkits</a>
+  <a href="#depuracion">Depuración y seguridad</a>
+  <a href="#referencias">Referencias</a>
+  <div id="empty">Sin resultados.</div>
+</nav>
+
+<main>
+<section id="versiones" class="tema">
+  <h2>Control de versiones</h2>
+  <article><h3>Definición</h3><p>Sistema que registra los cambios hechos a los archivos de un proyecto a lo largo del tiempo, permitiendo volver a versiones anteriores, comparar cambios y trabajar en equipo sin sobrescribir el trabajo de otros.</p></article>
+  <article><h3>Tipos de sistemas</h3>
+    <div class="panel on" id="t1"><p><b>Local (RCS):</b> las versiones se guardan en el equipo del usuario.</p><p><b>Ventajas:</b> simple y rápido. <b>Desventajas:</b> no permite colaboración y un fallo del disco pierde todo.</p></div>
+    <div class="panel" id="t2"><p><b>Centralizado (SVN, CVS):</b> un servidor único guarda el historial; los usuarios extraen y envían cambios.</p><p><b>Ventajas:</b> control de accesos y administración sencilla. <b>Desventajas:</b> depende del servidor y requiere conexión; punto único de fallo.</p></div>
+    <div class="panel" id="t3"><p><b>Distribuido (Git, Mercurial):</b> cada desarrollador tiene una copia completa del repositorio con todo su historial.</p><p><b>Ventajas:</b> trabajo sin conexión, ramas rápidas y respaldo natural. <b>Desventajas:</b> curva de aprendizaje mayor y repositorios grandes pesan más.</p></div>
+  </article>
+  <article><h3>Funcionamiento</h3><p>Se trabaja en el <i>directorio de trabajo</i>, se agregan cambios al <i>área de preparación</i> (staging) y se confirman en el <i>repositorio</i> mediante <i>commits</i>. Cada commit tiene un identificador único (hash), autor, fecha y mensaje. Las <i>ramas</i> permiten desarrollar funciones en paralelo y luego unirlas (<i>merge</i>).</p></article>
+  <article><h3>Rastreo y gestión de cambios</h3><p>Con <code>git status</code>, <code>git diff</code> y <code>git log</code> se ve qué cambió, quién y cuándo. <code>git revert</code> deshace un commit y <code>git blame</code> muestra el autor de cada línea. Plataformas como GitHub o GitLab añaden <i>pull requests</i> e <i>issues</i> para revisar y dar seguimiento.</p></article>
+  <article><h3>Ejemplo</h3><pre><code>git init
+git add .
+git commit -m "Primer commit"
+git branch nueva-funcion
+git checkout nueva-funcion
+git merge main
+git remote add origin URL
+git push -u origin main</code></pre></article>
+</section>
+
+<section id="persistencia" class="tema">
+  <h2>Persistencia y acceso a datos</h2>
+  <article><h3>Definición y características</h3><p>Es la capacidad de una aplicación de conservar su información después de cerrarse o reiniciarse el dispositivo. Características: durabilidad, integridad, consistencia, acceso eficiente y seguridad.</p></article>
+  <article><h3>Formas de persistencia en móviles</h3>
+    <ul>
+      <li><b>Archivos:</b> texto, JSON, XML o binarios en almacenamiento interno o externo. También preferencias clave-valor (SharedPreferences, UserDefaults).</li>
+      <li><b>Bases de datos locales:</b> SQLite, Room, Realm; guardan datos estructurados en el dispositivo.</li>
+      <li><b>Bases remotas vía servicios web:</b> API REST/GraphQL hacia servidores o nube (Firebase, MySQL, PostgreSQL); requieren conexión.</li>
+    </ul></article>
+  <article><h3>Tipos de datos según la persistencia</h3>
+    <div class="tablewrap"><table><tr><th>Forma</th><th>Datos típicos</th></tr>
+    <tr><td>Archivos / preferencias</td><td>Configuraciones, textos, JSON, imágenes, caché</td></tr>
+    <tr><td>SQLite local</td><td>Datos relacionales: usuarios, productos, historial</td></tr>
+    <tr><td>Servicios web</td><td>Datos compartidos entre usuarios, sincronizados y centralizados</td></tr></table></div></article>
+  <article><h3>Mecanismos de control de acceso</h3><p><b>Biblioteca de clases:</b> APIs del SDK para leer/escribir (File, Context, FileProvider).</p><p><b>Clases de SQLite:</b> SQLiteOpenHelper, SQLiteDatabase y Cursor para crear tablas y ejecutar consultas.</p><p><b>Mapeo relacional de objetos (ORM):</b> convierte tablas en objetos de código (Room, Core Data, Hibernate), evitando escribir SQL manual.</p></article>
+  <article><h3>Autenticación y consumo de servicios web</h3>
+    <ol>
+      <li>El usuario envía credenciales.</li>
+      <li>El servidor valida y devuelve un <i>token</i> (JWT/OAuth2).</li>
+      <li>La app guarda el token de forma segura.</li>
+      <li>Cada petición HTTP incluye el token en el encabezado <code>Authorization</code>.</li>
+      <li>La app procesa la respuesta JSON.</li>
+    </ol>
+    <p style="margin-top:10px">Se usan librerías como Retrofit, Volley o Axios.</p></article>
+  <article><h3>Ejemplo</h3><pre><code>fetch("https://api.ejemplo.com/usuarios", {
+  headers: { "Authorization": "Bearer " + token }
+}).then(r =&gt; r.json()).then(console.log);
+
+// SQLite
+CREATE TABLE usuarios(id INTEGER PRIMARY KEY, nombre TEXT);
+INSERT INTO usuarios(nombre) VALUES('Ana');</code></pre></article>
+</section>
+
+<section id="sensores" class="tema">
+  <h2>Gestión de sensores</h2>
+  <article><h3>Definición</h3><p>Los sensores son componentes de hardware que miden magnitudes físicas del entorno o del dispositivo y las convierten en datos que la aplicación puede usar.</p></article>
+  <article><h3>Tipos de sensores</h3><ul>
+    <li><b>De movimiento:</b> acelerómetro, giroscopio.</li>
+    <li><b>De posición:</b> GPS, magnetómetro (brújula), proximidad.</li>
+    <li><b>Ambientales:</b> luz, temperatura, humedad, presión (barómetro).</li>
+    <li><b>Biométricos y de entrada:</b> huella, cámara, micrófono.</li></ul></article>
+  <article><h3>Proceso de gestión</h3><ol>
+    <li><b>Habilitación:</b> declarar permisos y solicitar autorización al usuario; comprobar que el sensor existe.</li>
+    <li><b>Obtención:</b> obtener el administrador (SensorManager) y registrar un listener con una frecuencia de muestreo.</li>
+    <li><b>Procesamiento:</b> filtrar ruido, convertir unidades, interpretar los valores y actualizar la interfaz.</li>
+    <li><b>Liberación:</b> cancelar el listener para ahorrar batería.</li></ol>
+    <pre><code>window.addEventListener("devicemotion", e =&gt; {
+  const a = e.accelerationIncludingGravity;
+  console.log(a.x, a.y, a.z);
+});</code></pre></article>
+</section>
+
+<section id="multimedia" class="tema">
+  <h2>Uso de recursos multimedia</h2>
+  <article><h3>Definición</h3><p>Son elementos que combinan texto, imagen, audio, video y animación para enriquecer la experiencia de la aplicación.</p></article>
+  <article><h3>Tipos aplicables a la programación móvil</h3><ul>
+    <li><b>Imágenes:</b> PNG, JPG, WebP, SVG.</li><li><b>Audio:</b> MP3, AAC, OGG.</li><li><b>Video:</b> MP4, WebM.</li>
+    <li><b>Animaciones:</b> Lottie, GIF, animaciones de propiedades.</li><li><b>Elementos visuales dinámicos:</b> gráficos, Canvas, transiciones.</li></ul></article>
+  <article><h3>Estructura del proyecto</h3><p>Se guardan en carpetas dedicadas: <code>res/drawable</code>, <code>res/raw</code>, <code>res/mipmap</code> (Android), <code>Assets.xcassets</code> (iOS) o <code>assets/</code> (Flutter, React Native).</p></article>
+  <article><h3>Componentes de software</h3><p>MediaPlayer y ExoPlayer (audio/video), VideoView, ImageView, Glide/Picasso (carga de imágenes), Canvas y Animator, y AVFoundation en iOS.</p></article>
+</section>
+
+<section id="servicios" class="tema">
+  <h2>Servicios y notificaciones</h2>
+  <article><h3>Definición</h3><p>Un servicio es un componente que ejecuta operaciones sin interfaz visible; una notificación es un mensaje que la app muestra al usuario fuera de su pantalla.</p></article>
+  <article><h3>Tareas en segundo plano</h3><p>Procesos que se ejecutan sin que el usuario interactúe: sincronizar datos, descargar archivos o reproducir música. Se implementan con Services, WorkManager, Coroutines o hilos.</p></article>
+  <article><h3>Tratamiento de notificaciones</h3><p>Se crea un canal, se construye la notificación (título, texto, ícono, acción) y se muestra. Pueden ser <i>locales</i> o <i>push</i> (FCM, APNs). Desde Android 13 se requiere permiso del usuario.</p></article>
+  <article><h3>Proceso de implementación</h3><ol>
+    <li><b>Proveedores de contenido:</b> extender ContentProvider, definir URI y declararlo en el manifiesto.</li>
+    <li><b>Tareas en segundo plano:</b> crear un Worker y programarlo con restricciones (red, batería).</li>
+    <li><b>Notificaciones:</b> crear canal, construir con NotificationCompat y lanzar con NotificationManager.</li></ol></article>
+  <article><h3>Servicios en la nube</h3><p>Firebase (base de datos, autenticación, mensajería), AWS Amplify, Google Cloud y Azure Mobile Apps ofrecen almacenamiento, autenticación, funciones y notificaciones push.</p></article>
+</section>
+
+<section id="librerias" class="tema">
+  <h2>Librerías y toolkits para desarrollo móvil</h2>
+  <article><h3>¿Qué es una librería y qué es un toolkit?</h3><p>Una <b>librería</b> es un conjunto de funciones reutilizables que se invocan desde el código. Un <b>toolkit</b> es un conjunto más amplio de herramientas, componentes y librerías para construir aplicaciones completas.</p></article>
+  <article><h3>Librerías especializadas</h3><ul><li>Retrofit, Axios: red.</li><li>Room, Realm: datos.</li><li>Glide, Picasso: imágenes.</li><li>Gson, Moshi: JSON.</li><li>Dagger/Hilt: inyección de dependencias.</li></ul></article>
+  <article><h3>Toolkits aplicables</h3>
+    <div class="tablewrap"><table><tr><th>Toolkit</th><th>Lenguaje</th><th>Plataforma</th></tr>
+    <tr><td>Android SDK / Jetpack</td><td>Kotlin, Java</td><td>Android</td></tr>
+    <tr><td>iOS SDK / SwiftUI</td><td>Swift</td><td>iOS</td></tr>
+    <tr><td>Flutter</td><td>Dart</td><td>Multiplataforma</td></tr>
+    <tr><td>React Native</td><td>JavaScript</td><td>Multiplataforma</td></tr>
+    <tr><td>Xamarin / .NET MAUI</td><td>C#</td><td>Multiplataforma</td></tr></table></div></article>
+</section>
+
+<section id="depuracion" class="tema">
+  <h2>Depuración y seguridad</h2>
+  <article><h3>¿Qué es?</h3><p><b>Depuración:</b> proceso de encontrar y corregir errores del código.</p><p><b>Seguridad:</b> conjunto de prácticas para proteger datos, comunicaciones y la app: cifrado, HTTPS, permisos mínimos, almacenamiento seguro de tokens y ofuscación de código.</p></article>
+  <article><h3>Herramientas de depuración</h3><ul>
+    <li><b>Logcat / Log:</b> mensajes del sistema y de la app.</li>
+    <li><b>Breakpoints y depurador</b> de Android Studio y Xcode.</li>
+    <li><b>Profiler:</b> CPU, memoria y red.</li>
+    <li><b>Emuladores y simuladores</b> y adb.</li>
+    <li><b>Chrome DevTools / Flipper</b> para apps web o híbridas.</li></ul></article>
+</section>
+
+<section id="referencias" class="tema">
+  <h2>Referencias</h2>
+  <ul>
+    <li>Chacon, S. y Straub, B. (2014). <i>Pro Git</i>. Apress. https://git-scm.com/book</li>
+    <li>Android Developers. Documentación oficial. https://developer.android.com/docs</li>
+    <li>Apple Developer. Documentación. https://developer.apple.com/documentation</li>
+    <li>Flutter. Documentación. https://docs.flutter.dev</li>
+    <li>React Native. Documentación. https://reactnative.dev/docs</li>
+    <li>Firebase. Documentación. https://firebase.google.com/docs</li>
+    <li>MDN Web Docs. https://developer.mozilla.org</li>
+  </ul>
+</section>
+</main>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var nav=$('#nav'),links=$$('#nav a'),secs=$$('.tema');
+
+  // Búsqueda: filtra menú y secciones
+  $('#search').oninput=function(){
+    var q=this.value.trim().toLowerCase(),n=0;
+    secs.forEach(function(s,i){
+      var ok=!q||s.textContent.toLowerCase().indexOf(q)>-1;
+      s.classList.toggle('hide',!ok);links[i].classList.toggle('hide',!ok);
+      if(ok)n++;
+    });
+    $('#empty').style.display=n?'none':'block';
+  };
+
+  // Progreso y sección activa
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-innerHeight,y=scrollY;
+    $('#bar').style.width=(h>0?y/h*100:0)+'%';
+    var cur=0;
+    secs.forEach(function(s,i){if(!s.classList.contains('hide')&&s.getBoundingClientRect().top<140)cur=i});
+    links.forEach(function(a,i){a.classList.toggle('on',i===cur)});
+  }
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>
